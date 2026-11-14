@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Nuestra historia</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#15122b;--bg2:#1f1a3d;--ink:#f6eef2;--mute:#b3a8c9;--rose:#f2a7bd;--honey:#f0c987;--line:#3a3363;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Nunito,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:300;line-height:1.1}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--honey);outline-offset:3px}
+section{max-width:1000px;margin:0 auto;padding:90px 22px}
+h2{font-size:clamp(2rem,5vw,3rem);margin-bottom:12px}
+.sub{color:var(--mute);margin-bottom:40px;max-width:52ch}
+
+/* candado */
+#lock{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:radial-gradient(circle at 50% 30%,#2b2255,var(--bg));padding:24px;text-align:center}
+#lock h1{font-size:clamp(2.2rem,8vw,4rem);margin-bottom:10px}
+#lock p{color:var(--mute);margin-bottom:22px}
+#lock input{width:min(300px,80vw);padding:14px 18px;border-radius:99px;border:1px solid var(--line);background:#0000004d;color:var(--ink);font:inherit;text-align:center}
+#lock button{margin-top:14px;padding:13px 30px;border:0;border-radius:99px;background:var(--rose);color:#2a1030;font:600 1rem Nunito,sans-serif;cursor:pointer}
+#err{min-height:1.6em;margin-top:12px;color:var(--honey)}
+.shake{animation:sh .4s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+#site{display:none}
+
+/* portada y contador */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative}
+.hero h1{font-size:clamp(2.6rem,9vw,5.5rem);font-style:italic}
+.hero .desde{color:var(--mute);margin:10px 0 40px}
+.count{display:flex;gap:clamp(10px,3vw,28px);flex-wrap:wrap;justify-content:center}
+.unit{min-width:76px}
+.unit b{display:block;font:300 clamp(2.4rem,8vw,4.4rem)/1 Fraunces,serif;font-variant-numeric:tabular-nums;color:var(--honey)}
+.unit span{color:var(--mute);font-size:.9rem}
+.total{margin-top:34px;color:var(--mute)}
+.total strong{color:var(--rose);font-weight:600}
+#heart{margin-top:34px;background:none;border:0;font-size:2.6rem;cursor:pointer;color:var(--rose);transition:transform .2s}
+#heart:active{transform:scale(1.3)}
+#next{margin-top:8px;color:var(--mute);font-size:.95rem}
+.pop{position:fixed;pointer-events:none;z-index:40;font-size:1.6rem;animation:up 1.3s ease-out forwards}
+@keyframes up{to{transform:translate(var(--dx),-180px) scale(1.4);opacity:0}}
+
+/* línea de tiempo */
+.tl{position:relative;padding-left:34px}
+.tl::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--rose),var(--line))}
+.ev{position:relative;margin-bottom:14px}
+.ev::before{content:"";position:absolute;left:-31px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 4px var(--bg)}
+.ev.futuro::before{background:var(--bg);border:2px solid var(--line)}
+.ev button{width:100%;text-align:left;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 20px;color:inherit;font:inherit;cursor:pointer;transition:border-color .2s}
+.ev button:hover{border-color:var(--rose)}
+.ev time{color:var(--honey);font-size:.9rem}
+.ev h3{font-size:1.45rem;margin:2px 0}
+.ev .det{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s}
+.ev.abierto .det{grid-template-rows:1fr}
+.det>div{overflow:hidden}
+.det p{color:var(--mute);margin-top:10px}
+.det img{width:100%;max-height:340px;object-fit:cover;border-radius:10px;margin-top:12px}
+.ev.futuro h3{color:var(--mute)}
+
+/* galería */
+.grid{columns:3 220px;column-gap:14px}
+.ph{break-inside:avoid;margin-bottom:14px;display:block;width:100%;border:0;padding:0;border-radius:14px;overflow:hidden;cursor:pointer;position:relative;background:var(--bg2)}
+.ph img{display:block;width:100%;transition:transform .5s}
+.ph:hover img{transform:scale(1.05)}
+.ph figcaption{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;background:linear-gradient(transparent,#000a);text-align:left;font-size:.9rem;color:#fff}
+.vacio{display:grid;place-items:center;min-height:200px;padding:24px;color:var(--mute);background:repeating-linear-gradient(45deg,var(--bg2),var(--bg2) 12px,#241e47 12px,#241e47 24px);text-align:center}
+#lb{position:fixed;inset:0;z-index:60;background:#0b0918f2;display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px;text-align:center}
+#lb.on{display:flex}
+#lb img{max-width:min(92vw,900px);max-height:72vh;border-radius:10px}
+#lb h3{margin-top:16px;font-size:1.6rem}
+#lb p{color:var(--mute);max-width:50ch}
+#lb button{position:absolute;background:#ffffff1a;border:0;color:#fff;width:46px;height:46px;border-radius:50%;font-size:1.4rem;cursor:pointer}
+#cerrar{top:18px;right:18px}#prev{left:14px;top:50%}#sig{right:14px;top:50%}
+.add{display:inline-block;margin-top:22px;padding:11px 22px;border:1px dashed var(--rose);border-radius:99px;color:var(--rose);background:none;font:inherit;cursor:pointer}
+.modal{position:fixed;inset:0;z-index:70;background:#0b0918e6;display:none;place-items:center;padding:20px}
+.modal.on{display:grid}
+.modal form{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:26px;width:min(420px,100%);display:grid;gap:14px}
+.modal h3{font-size:1.6rem}
+.modal label{display:grid;gap:6px;color:var(--mute);font-size:.92rem}
+.modal input{padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:#0000004d;color:var(--ink);font:inherit;width:100%}
+.modal .row{display:flex;gap:10px;justify-content:flex-end}
+.modal button{padding:11px 22px;border-radius:99px;border:1px solid var(--line);background:none;color:var(--ink);font:inherit;cursor:pointer}
+.modal #upGo{background:var(--rose);border-color:var(--rose);color:#2a1030;font-weight:600}
+.modal button:disabled{opacity:.5}
+#upMsg{min-height:1.4em;color:var(--honey);font-size:.92rem}
+footer{text-align:center;color:var(--mute);padding:50px 20px 70px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== versión vistosa ===== */
+:root{--mint:#8fe3c0;--sky:#8ab4ff}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at 12% 18%,#f2a7bd2e,transparent 42%),radial-gradient(circle at 88% 55%,#8fe3c026,transparent 42%),radial-gradient(circle at 20% 90%,#8ab4ff26,transparent 40%),linear-gradient(#15122bdd,#1b1638e6),url(fondo.jpg) 38% 100%/cover}
+#lock{background:linear-gradient(#15122bb0,#15122bd9),url(fondo.jpg) 38% 100%/cover}
+.hero{min-height:100vh;min-height:100svh;justify-content:flex-start;padding:11vh 20px 26vh;background:linear-gradient(#15122b8c,#15122b33 40%,#15122b26 70%,#15122b66),url(fondo.jpg) 38% 100%/cover no-repeat}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14%;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+.hero h1{text-shadow:0 4px 30px #000a}
+.hero p{text-shadow:0 1px 10px #000c}
+.hero .desde{color:var(--ink)}
+.total,#next{color:#f1e8f5}
+.unit{padding:14px 12px;border-radius:20px;background:#ffffff1c;border:1px solid #ffffff33;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.unit b{background:linear-gradient(180deg,#fff3d6,var(--honey) 45%,var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent}
+.unit span{color:#efe6f3}
+#heart{filter:drop-shadow(0 0 14px #f2a7bd);animation:lat 1.6s ease-in-out infinite}
+@keyframes lat{50%{transform:scale(1.18)}}
+h2::after{content:"";display:block;width:84px;height:4px;border-radius:4px;margin-top:12px;background:linear-gradient(90deg,var(--rose),var(--honey),var(--mint),var(--sky))}
+.ev:nth-child(4n+1){--c:var(--rose)}.ev:nth-child(4n+2){--c:var(--honey)}.ev:nth-child(4n+3){--c:var(--mint)}.ev:nth-child(4n+4){--c:var(--sky)}
+.tl::before{background:linear-gradient(var(--rose),var(--honey),var(--mint),var(--sky))}
+.ev::before{background:var(--c,var(--rose))}
+.ev.futuro::before{border-color:var(--c)}
+.ev button{background:linear-gradient(120deg,#ffffff1f,#ffffff0d);border-left:4px solid var(--c,var(--rose));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ev button:hover{border-color:var(--c)}
+.ev time{color:var(--c,var(--honey))}
+.ph:nth-child(3n+1) .vacio{background:linear-gradient(135deg,#f2a7bd55,#8ab4ff40)}
+.ph:nth-child(3n+2) .vacio{background:linear-gradient(135deg,#f0c98755,#f2a7bd40)}
+.ph:nth-child(3n) .vacio{background:linear-gradient(135deg,#8fe3c04d,#8ab4ff40)}
+.ph{box-shadow:0 10px 30px #0006}
+.add{background:#f2a7bd1f}
+footer{background:linear-gradient(transparent,#15122bcc)}
+.petal{position:fixed;top:-40px;z-index:2;pointer-events:none;opacity:.75;animation:fall linear infinite}
+@keyframes fall{to{transform:translate(var(--sx),112vh) rotate(420deg)}}
+</style>
+</head>
+<body>
+
+<div id="lock">
+  <div>
+    <h1>Nuestra historia</h1>
+    <p>Un lugar solo para dos. Escribe la contraseña.</p>
+    <form id="f"><input id="pw" type="password" placeholder="Contraseña" autocomplete="off" aria-label="Contraseña"><br><button>Entrar</button></form>
+    <div id="err" role="alert"></div>
+  </div>
+</div>
+
+<main id="site">
+  <header class="hero">
+    <h1>Nuestra historia</h1>
+    <p class="desde" id="desde"></p>
+    <div class="count" aria-live="off">
+      <div class="unit"><b id="cM">0</b><span>meses</span></div>
+      <div class="unit"><b id="cD">0</b><span>días</span></div>
+      <div class="unit"><b id="cH">0</b><span>horas</span></div>
+      <div class="unit"><b id="cm">0</b><span>minutos</span></div>
+      <div class="unit"><b id="cS">0</b><span>segundos</span></div>
+    </div>
+    <p class="total">Son <strong id="tot">0</strong> días juntos</p>
+    <button id="heart" aria-label="Lanzar corazones">♥</button>
+    <p id="next"></p>
+  </header>
+
+  <section id="tiempo">
+    <h2>Línea de tiempo</h2>
+    <p class="sub">Toca cada fecha para abrir el recuerdo. Los círculos vacíos son los momentos que todavía nos esperan.</p>
+    <div class="tl" id="tl"></div>
+  </section>
+
+  <section id="galeria">
+    <h2>Galería</h2>
+    <p class="sub">Toca una foto para verla grande. Usa las flechas del teclado o desliza para pasar a la siguiente.</p>
+    <div class="grid" id="grid"></div>
+    <button class="add" id="addBtn">+ Agregar foto</button>
+  </section>
+
+  <footer>Hecho con cariño para nosotros ♥</footer>
+</main>
+
+<div id="up" class="modal"><form id="upf">
+  <h3>Agregar una foto</h3>
+  <label>Foto<input id="upFile" type="file" accept="image/*" required></label>
+  <label>Título<input id="upT" maxlength="60" placeholder="Nuestra primera cita"></label>
+  <label>Nota o fecha<input id="upN" maxlength="120" placeholder="15 de mayo de 2026"></label>
+  <label id="tokBox">Clave de acceso de GitHub (solo la primera vez)<input id="upK" type="password" autocomplete="off"></label>
+  <p id="upMsg" role="status"></p>
+  <div class="row"><button type="button" id="upX">Cancelar</button><button id="upGo">Subir foto</button></div>
+</form></div>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="Foto">
+  <button id="cerrar" aria-label="Cerrar">✕</button>
+  <button id="prev" aria-label="Anterior">‹</button>
+  <button id="sig" aria-label="Siguiente">›</button>
+  <img id="lbImg" alt=""><h3 id="lbT"></h3><p id="lbN"></p>
+</div>
+
+<script>
+/* ============ PERSONALIZA AQUÍ ============ */
+const INICIO = new Date(2026, 4, 15, 0, 0, 0);   // 15 de mayo de 2026
+const CLAVE_HASH = "e96140badad5ae6eb4eb02ef25281647e514fb612e0e09f4be5e067b6fc71c64"; // contraseña actual: 150526
+
+// Recuerdos con texto y foto propios (la clave es la fecha AAAA-MM-DD).
+const NOTAS = {
+  "2026-05-15": {titulo:"El día que empezamos", texto:"Aquí comenzó todo. Escribe aquí cómo fue ese día.", foto:""},
+  "2026-06-15": {titulo:"Nuestro primer mes", texto:"Un mes de risas. Cuenta aquí tu recuerdo favorito.", foto:""}
+};
+
+// Fotos de la galería: guarda las imágenes en la carpeta "fotos" junto a este archivo.
+const FOTOS = [
+  // {src:"fotos/primera-cita.jpg", titulo:"Nuestra primera cita", nota:"15 de mayo de 2026"},
+];
+/* ========================================== */
+
+const $ = id => document.getElementById(id);
+const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const fmt = d => `${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`;
+const sumaMeses = (d,n) => new Date(d.getFullYear(), d.getMonth()+n, d.getDate());
+
+/* --- candado --- */
+async function hacerHash(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+window.crearClave = async t => console.log(await hacerHash(t));
+function abrir(){ $("lock").style.display="none"; $("site").style.display="block"; try{sessionStorage.setItem("ok","1")}catch(e){} iniciar(); }
+$("f").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (await hacerHash($("pw").value) === CLAVE_HASH) abrir();
+  else { $("err").textContent="Esa no es. Inténtalo otra vez."; $("pw").classList.add("shake"); setTimeout(()=>$("pw").classList.remove("shake"),400); }
+});
+
+/* --- contador --- */
+function tick(){
+  const ahora = new Date();
+  let m = (ahora.getFullYear()-INICIO.getFullYear())*12 + ahora.getMonth()-INICIO.getMonth();
+  if (sumaMeses(INICIO,m) > ahora) m--;
+  const resto = ahora - sumaMeses(INICIO,m);
+  const dia = 864e5;
+  $("cM").textContent = Math.max(m,0);
+  $("cD").textContent = Math.floor(resto/dia);
+  $("cH").textContent = Math.floor(resto%dia/36e5);
+  $("cm").textContent = Math.floor(resto%36e5/6e4);
+  $("cS").textContent = Math.floor(resto%6e4/1e3);
+  $("tot").textContent = Math.max(Math.floor((ahora-INICIO)/dia),0).toLocaleString("es");
+  const prox = sumaMeses(INICIO, m+1);
+  const faltan = Math.ceil((prox-ahora)/dia);
+  $("next").textContent = faltan<=1 ? "¡Nuestro próximo mesiversario es mañana!" : `Faltan ${faltan} días para nuestro próximo mesiversario`;
+}
+
+/* --- línea de tiempo --- */
+function lineaTiempo(){
+  const tl = $("tl"); tl.innerHTML = "";
+  const hoy = new Date();
+  for (let n=0; n<=12; n++){
+    const d = sumaMeses(INICIO,n);
+    const k = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    const o = NOTAS[k] || {};
+    const titulo = o.titulo || (n===0 ? "El día que empezamos" : n===12 ? "¡Nuestro primer año!" : n===1 ? "Nuestro primer mes" : `Nuestros ${n} meses`);
+    const texto = o.texto || (d>hoy ? "Todavía no llega, pero ya lo estamos esperando." : "Agrega aquí lo que recuerdas de este día.");
+    const el = document.createElement("div");
+    el.className = "ev" + (d>hoy ? " futuro" : "");
+    el.innerHTML = `<button aria-expanded="false"><time>${fmt(d)}</time><h3></h3><div class="det"><div><p></p>${o.foto?`<img src="${o.foto}" alt="">`:""}</div></div></button>`;
+    el.querySelector("h3").textContent = titulo;
+    el.querySelector("p").textContent = texto;
+    const b = el.querySelector("button");
+    b.onclick = () => { const on = el.classList.toggle("abierto"); b.setAttribute("aria-expanded",on); };
+    tl.appendChild(el);
+  }
+}
+
+/* --- galería --- */
+let lista = [], idx = 0;
+function galeria(){
+  const g = $("grid"); g.innerHTML = "";
+  if (!FOTOS.length && !lista.length){
+    for (let i=0;i<6;i++){ const d=document.createElement("div"); d.className="ph"; d.innerHTML=`<div class="vacio" style="min-height:${160+(i%3)*50}px">Aquí irá una foto de ustedes ♥</div>`; g.appendChild(d); }
+    return;
+  }
+  lista.forEach((f,i)=>{
+    const b = document.createElement("button"); b.className="ph";
+    b.innerHTML = `<img src="${f.src}" alt="${f.titulo||"Foto"}" loading="lazy"><figcaption></figcaption>`;
+    b.querySelector("figcaption").textContent = f.titulo||"";
+    b.onclick = () => ver(i); g.appendChild(b);
+  });
+}
+function ver(i){
+  idx = (i+lista.length)%lista.length; const f = lista[idx];
+  $("lbImg").src=f.src; $("lbT").textContent=f.titulo||""; $("lbN").textContent=f.nota||"";
+  $("lb").classList.add("on"); $("cerrar").focus();
+}
+$("cerrar").onclick = () => $("lb").classList.remove("on");
+$("prev").onclick = () => ver(idx-1);
+$("sig").onclick = () => ver(idx+1);
+$("lb").addEventListener("click", e => { if(e.target.id==="lb") $("lb").classList.remove("on"); });
+document.addEventListener("keydown", e => {
+  if(!$("lb").classList.contains("on")) return;
+  if(e.key==="Escape") $("lb").classList.remove("on");
+  if(e.key==="ArrowLeft") ver(idx-1);
+  if(e.key==="ArrowRight") ver(idx+1);
+});
+let x0=null;
+$("lb").addEventListener("touchstart",e=>x0=e.touches[0].clientX);
+$("lb").addEventListener("touchend",e=>{ if(x0===null) return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>50) ver(idx+(dx<0?1:-1)); x0=null; });
+/* --- subir fotos a GitHub desde la página --- */
+const REPO = location.hostname.endsWith(".github.io") ? {o:location.hostname.split(".")[0], r:location.pathname.split("/")[1]} : null;
+const gh = (path,opt={}) => fetch(`https://api.github.com/repos/${REPO.o}/${REPO.r}/contents/${path}`, {...opt, headers:{Authorization:"Bearer "+localStorage.getItem("gh"), Accept:"application/vnd.github+json", "Content-Type":"application/json"}});
+const aB64 = blob => new Promise(ok => { const r=new FileReader(); r.onload=()=>ok(r.result.split(",")[1]); r.readAsDataURL(blob); });
+const textoB64 = t => btoa(unescape(encodeURIComponent(t)));
+function reducir(file){
+  return new Promise((ok,no)=>{
+    const img=new Image(), u=URL.createObjectURL(file);
+    img.onload=()=>{ const k=Math.min(1,1600/Math.max(img.width,img.height)), c=document.createElement("canvas");
+      c.width=Math.round(img.width*k); c.height=Math.round(img.height*k);
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      c.toBlob(b=>{URL.revokeObjectURL(u); ok(b)},"image/jpeg",.85); };
+    img.onerror=()=>no(new Error("No se pudo leer esa imagen. Prueba con una foto JPG o PNG."));
+    img.src=u;
+  });
+}
+const cerrarUp = () => $("up").classList.remove("on");
+$("addBtn").onclick = () => {
+  let t=null; try{t=localStorage.getItem("gh")}catch(e){}
+  $("tokBox").style.display = t ? "none" : "grid";
+  $("upMsg").textContent=""; $("upGo").disabled=false; $("up").classList.add("on");
+};
+$("upX").onclick = cerrarUp;
+$("up").addEventListener("click", e => { if(e.target.id==="up") cerrarUp(); });
+$("upf").addEventListener("submit", async e => {
+  e.preventDefault(); const msg=$("upMsg"), go=$("upGo");
+  try{
+    if(!REPO) throw new Error("Subir fotos solo funciona en la página publicada en GitHub Pages.");
+    const k=$("upK").value.trim(); if(k) localStorage.setItem("gh",k);
+    if(!localStorage.getItem("gh")) throw new Error("Falta la clave de acceso de GitHub.");
+    go.disabled=true; msg.textContent="Preparando la foto…";
+    const blob = await reducir($("upFile").files[0]);
+    const nombre = "foto-"+Date.now()+".jpg";
+    msg.textContent="Subiendo…";
+    let r = await gh("fotos/"+nombre,{method:"PUT",body:JSON.stringify({message:"Agrega foto",content:await aB64(blob)})});
+    if(!r.ok){ if([401,403,404].includes(r.status)) localStorage.removeItem("gh"); throw new Error([401,403,404].includes(r.status) ? "GitHub no aceptó la clave. Crea una con permiso Contents: Read and write para este repositorio e inténtalo otra vez." : "No se pudo subir la foto ("+r.status+")."); }
+    const item = {src:"fotos/"+nombre, titulo:$("upT").value.trim(), nota:$("upN").value.trim()};
+    let sha, arr=[];
+    r = await gh("fotos/lista.json");
+    if(r.ok){ const j=await r.json(); sha=j.sha; arr=JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,""))))); }
+    arr.push(item);
+    r = await gh("fotos/lista.json",{method:"PUT",body:JSON.stringify({message:"Actualiza la lista de fotos",content:textoB64(JSON.stringify(arr,null,1)),sha})});
+    if(!r.ok) throw new Error("La foto se subió, pero no se pudo actualizar la lista ("+r.status+").");
+    lista.push({...item, src:URL.createObjectURL(blob)}); galeria();
+    msg.textContent="Listo. Tu pareja la verá en uno o dos minutos.";
+    $("upf").reset(); setTimeout(cerrarUp,1800);
+  }catch(err){ msg.textContent=err.message; go.disabled=false; }
+});
+
+/* --- corazones --- */
+$("heart").onclick = e => {
+  const r = e.currentTarget.getBoundingClientRect();
+  for (let i=0;i<14;i++){
+    const s = document.createElement("span"); s.className="pop";
+    s.textContent = ["♥","💗","💖","✨"][i%4];
+    s.style.left = r.left+r.width/2+"px"; s.style.top = r.top+"px";
+    s.style.setProperty("--dx", (Math.random()*240-120)+"px");
+    s.style.animationDelay = i*40+"ms";
+    document.body.appendChild(s); setTimeout(()=>s.remove(),1800);
+  }
+};
+
+function petalos(){
+  const c=["#f2a7bd","#f0c987","#8fe3c0","#8ab4ff","#ffffff"], f=["♥","❀","✿","♥"];
+  for(let i=0;i<18;i++){
+    const e=document.createElement("span"); e.className="petal"; e.textContent=f[i%4];
+    e.style.left=Math.random()*100+"vw"; e.style.fontSize=(10+Math.random()*16)+"px"; e.style.color=c[i%5];
+    e.style.setProperty("--sx",(Math.random()*160-80)+"px");
+    e.style.animationDuration=(16+Math.random()*16)+"s"; e.style.animationDelay=(-Math.random()*30)+"s";
+    document.body.appendChild(e);
+  }
+}
+let listo=false;
+function iniciar(){
+  if(listo) return; listo=true;
+  lista = FOTOS.slice();
+  $("desde").textContent = `Desde el ${fmt(INICIO)}`;
+  tick(); setInterval(tick,1000); lineaTiempo(); galeria(); petalos();
+  fetch("fotos/lista.json?t="+Date.now()).then(r=>r.ok?r.json():[]).then(a=>{ lista=FOTOS.concat(a); galeria(); }).catch(()=>{});
+}
+/* abrir solo si ya se puso la clave en esta visita (va al final, cuando todo ya está definido) */
+let yaOk=false; try{ yaOk = sessionStorage.getItem("ok")==="1"; }catch(e){}
+if(yaOk) abrir();
+</script>
+</body>
+</html>
